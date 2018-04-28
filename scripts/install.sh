@@ -1,2 +1,2 @@
 #!/bin/bash
-rsync -a builds/ ~/iterm2.com/downloads/pyenv/
+rsync -av builds/ ~/iterm2.com/downloads/pyenv/
