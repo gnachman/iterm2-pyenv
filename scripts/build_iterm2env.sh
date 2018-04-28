@@ -35,6 +35,10 @@ export PYENV_ROOT=$SOURCE
 # If this fails complaining about missing a library like zlib, do: xcode-select --install
 /tmp/pyenv/bin/pyenv install $PYTHON_VERSION
 export PATH=$PYENV_ROOT/versions/$PYTHON_VERSION/bin:$PATH
+yes | pip3 uninstall websockets
+yes | pip3 uninstall protobuf
+yes | pip3 uninstall iterm2
+
 pip3 install websockets
 pip3 install protobuf
 pip3 install iterm2
