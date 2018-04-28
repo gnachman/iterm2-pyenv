@@ -24,7 +24,6 @@ URL="https://iterm2.com/downloads/pyenv/iterm2env-$1.zip"
 MANIFEST="$BUILDS/manifest.json"
 METADATANAME="iterm2env-metadata.json"
 METADATA="$DEST"/"$METADATANAME"
-MIRROR="$HOME/iterm2-website/downloads/pyenv"
 
 rm -rf "$SOURCE"
 
@@ -67,9 +66,3 @@ sed -e "s,__URL__,$URL," -e "s,__SIGNATURE__,$SIGNATURE," < templates/manifest_t
 git add "$ZIPFILE" "$MANIFEST"
 git commit -am "Build version $1"
 git push origin master
-
-cp "$ZIPFILE" "$MANIFEST" "$MIRROR"
-cd "$MIRROR"
-git add $ZIPNAME
-git add $MANIFEST
-git commit
