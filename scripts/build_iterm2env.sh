@@ -62,7 +62,7 @@ zip -ry "$ZIPFILE" "$DEST"
 rm -rf "$DEST"
 
 SIGNATURE=$(openssl dgst -sha256 -sign $RSA_PRIVKEY "$ZIPFILE" | openssl enc -base64 -A)
-sed -e "s,__URL__,$URL," -e "s,__SIGNATURE__,$SIGNATURE," < templates/manifest_template.json > "$MANIFEST"
+sed -e "s/__VERSION__/$1/" -e "s,__URL__,$URL," -e "s,__SIGNATURE__,$SIGNATURE," < templates/manifest_template.json > "$MANIFEST"
 git add "$ZIPFILE" "$MANIFEST"
 git commit -am "Build version $1"
 git push origin master
