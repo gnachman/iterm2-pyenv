@@ -16,7 +16,8 @@ git checkout master
 git pull origin master
 
 SOURCE=$(pwd)/venv
-DEST=$(pwd)/iterm2env
+RELDEST=iterm2env
+DEST=$(pwd)/"$RELDEST"
 BUILDS=$(pwd)/builds
 ZIPNAME="iterm2env-$1.zip"
 ZIPFILE="$BUILDS"/"$ZIPNAME"
@@ -73,7 +74,7 @@ find $DEST -type f -exec scripts/templatize.sh "$SOURCE" "$PYENV_INSTALL" "{}" \
 
 rm -rf "$SOURCE"
 sed -e "s/__VERSION__/$1/" < templates/metadata_template.json > "$METADATA"
-zip -ry "$ZIPFILE" "$DEST"
+zip -ry "$ZIPFILE" "$RELDEST"
 rm -rf "$DEST"
 
 SIGNATURE=$(openssl dgst -sha256 -sign $RSA_PRIVKEY "$ZIPFILE" | openssl enc -base64 -A)
