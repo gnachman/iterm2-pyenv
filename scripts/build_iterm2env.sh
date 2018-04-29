@@ -16,24 +16,27 @@ git checkout master
 git pull origin master
 
 SOURCE=$(pwd)/venv
-DEST=iterm2env
-BUILDS=builds
+DEST=$(pwd)/iterm2env
+BUILDS=$(pwd)/builds
 ZIPNAME="iterm2env-$1.zip"
 ZIPFILE="$BUILDS"/"$ZIPNAME"
 URL="https://iterm2.com/downloads/pyenv/iterm2env-$1.zip"
 MANIFEST="$BUILDS/manifest.json"
 METADATANAME="iterm2env-metadata.json"
 METADATA="$DEST"/"$METADATANAME"
+PYENV_INSTALL="$DEST"/pyenv
 
 rm -rf "$SOURCE"
+rm -rf "$DEST"
 
 PYTHON_VERSION=3.6.5
 
-rm -rf /tmp/pyenv
-git clone https://github.com/pyenv/pyenv.git /tmp/pyenv
+rm -rf "$PYENV_INSTALL"
+mkdir -p "$PYENV_INSTALL"
+git clone https://github.com/pyenv/pyenv.git "$PYENV_INSTALL"
 export PYENV_ROOT=$SOURCE
 # If this fails complaining about missing a library like zlib, do: xcode-select --install
-/tmp/pyenv/bin/pyenv install $PYTHON_VERSION
+"$PYENV_INSTALL"/bin/pyenv install $PYTHON_VERSION
 export PATH=$PYENV_ROOT/versions/$PYTHON_VERSION/bin:$PATH
 yes | pip3 uninstall websockets
 yes | pip3 uninstall protobuf
@@ -60,6 +63,14 @@ do
 done
 
 find $DEST | grep -E '(__pycache__|\.pyc|\.pyo$)' | xargs rm -rf
+
+rm -rf "$PYENV_INSTALL"/.git
+
+# Hack the installed scripts to replace references to build paths with
+# substitutable strings. The installer will need to replace these with the
+# local paths after installation.
+find $DEST -type f -exec scripts/templatize.sh "$SOURCE" "$PYENV_INSTALL" "{}" \;
+
 rm -rf "$SOURCE"
 sed -e "s/__VERSION__/$1/" < templates/metadata_template.json > "$METADATA"
 zip -ry "$ZIPFILE" "$DEST"
