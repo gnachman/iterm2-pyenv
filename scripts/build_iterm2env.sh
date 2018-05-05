@@ -75,7 +75,6 @@ find $DEST -type f -exec scripts/templatize.sh "$SOURCE" "$PYENV_INSTALL" "{}" \
 rm -rf "$SOURCE"
 sed -e "s/__VERSION__/$1/" < templates/metadata_template.json > "$METADATA"
 zip -ry "$ZIPFILE" "$RELDEST"
-rm -rf "$DEST"
 
 SIGNATURE=$(openssl dgst -sha256 -sign $RSA_PRIVKEY "$ZIPFILE" | openssl enc -base64 -A)
 sed -e "s/__VERSION__/$1/" -e "s,__URL__,$URL," -e "s,__SIGNATURE__,$SIGNATURE," < templates/manifest_template.json > "$MANIFEST"
