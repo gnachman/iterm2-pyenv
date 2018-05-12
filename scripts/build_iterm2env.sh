@@ -42,10 +42,12 @@ export PATH=$PYENV_ROOT/versions/$PYTHON_VERSION/bin:$PATH
 yes | pip3 uninstall websockets
 yes | pip3 uninstall protobuf
 yes | pip3 uninstall iterm2
+yes | pip3 uninstall aioconsole
 
 pip3 install websockets
 pip3 install protobuf
 pip3 install iterm2
+pip3 install aioconsole
 
 rsync $SOURCE/ $DEST/ -a --copy-links -v
 
