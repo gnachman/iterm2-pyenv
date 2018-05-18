@@ -1,5 +1,8 @@
-{
-  "url": "__URL__",
-  "version": "__VERSION__",
-  "signature": "__SIGNATURE__"
-}
+[
+  {
+    "url": "__URL__",
+    "version": "__VERSION__",
+    "signature": "__SIGNATURE__"
+    "mininum_iterm_version": "3.2.20180518-nightly"
+  }
+]
