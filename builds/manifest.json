@@ -1,5 +1,14 @@
-{
+[
+  {
+    "url": "https://iterm2.com/downloads/pyenv/iterm2env-13.zip",
+    "version": "13",
+    "signature": "COa7Ch0atMsLrJKcyH6g2mRoJk8+ZdUbintm7pZhwQ6v+6EAzaXUbVF/R7pNqRJZRW65uZifBKbuHESbhUxGkkq5JJkvvzaqBfHNLCeO2ZnK03zLAWrhbAQHIrTbcxLSOeqYsZ3bkVkHq4I7YhBp/aTBL7UA7R4oUkNSwWRiH5y5M8HsXHts0nW+B1NW/CO8GaixAMaOcw77csEyU1SriZ5th5Et5u6v9thkLntHnYLJ2K9pZ1rkYQImAeGHhDCvk/imdCGmw5JgyHHvo7k5YhKXIuNp+1bR9d2oOgq03WxLhqPz8PorJsrHsOJwNMn4crFMDIaXIZVqCZq8vmc1JhWXfiNMT+gSpeoJcuKLDZfIu1SzwJFUFSbF/4At1w3w1GrUFuJKPliCuOKtg3vu+d3HJYJxQiVJ5mnccNKoLvlS/Buk3UHApZHGp4NcuLC0I8y/+JjfjhAwynU/ouitvHra3mh/A/JqSWuGY+svVDH23VMDTsD0f+nCnzxxITG1qh3OSsXzdd6+kbY+YHRqSzWFs6vUIPTm/WT3pKRzMNBGQ1Npbbo4IiYIiPa/4SvtzCND3kaNgRfenkmHH84GF7NKDxq1Q8K845R6lsEZ01KIrpsMQ6cB1IM8xVOZCTCC1Nn5xukYY9K8s0GvuH+J4fCz9JmPhhgbwaqghVloXXk=",
+    "mininum_iterm_version": "3.2.20180520-nightly"
+  },
+  {
   "url": "https://iterm2.com/downloads/pyenv/iterm2env-12.zip",
   "version": "12",
+  "mininum_iterm_version": "3.2.20180518-nightly",
   "signature": "5cDlNyg7FZrGgbpuvF6f5uJdli/HXiV9Cw2B5s0+kBr33cEDRBWTYt21ndtqJQNwbzZ5Rba3rbQJDlM5TrM1jnCDd/HOcmk/gT1CFYwwE7t23HX2zzazQu1Ax3y/AqyfWpCcvjh9/+7GUp8HJvUcDmh1A9WKF3r76uTk90FTGAYS/YfoK6SX/fXu06gGEftUcvoK5Cw8/a/BVWjdfhTrUVKo4ySPlneJlrjdXl2U3TViUzMUQRdMwUJjwLTWQmdrGzxkbqSo/QKONJtHGBL1FjGVoDKe3iqjKDiz2xGhTmE3zjohyr1jcaF1ZxIala/TDSb9wMnt4M7FDRQUuuUz+H6sPVDYYdP16vvQSoi0H/m69ksMwo9YHrQF49FhAh8Iq6KDAOkPREJ7ijqMofL08glGYRv6MwZEgMWmu59Uy08v5IKI6iBY/ARsFtEvpGgEoQm8t/HyRXEqlPnmRAfawP6DAVKDpP2udjoe8VW/OMVtAs3kbROLZvFV00D2ahIN2jYbjTAAfx3S0/JjPaBG6Gl+gc7REWXWw+IoIbCnTW23uGPMQYVRgT2p3rFwzi3svNyah49tt9bpYtIJI4DguE74C9wABcgx0+CCKYTMgmtT8eDyj5249/J7JXFc4WHn6qkRY0envEPvDwP9A9F8Zje/6AvlPpJt+Mzxuwn2Ej8="
-}
+  }
+]
