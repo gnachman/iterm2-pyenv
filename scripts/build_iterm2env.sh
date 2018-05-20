@@ -46,7 +46,7 @@ yes | pip3 uninstall aioconsole
 
 pip3 install websockets
 pip3 install protobuf
-pip3 install iterm2 -U
+pip3 install --upgrade --force-reinstall iterm2
 pip3 install aioconsole
 
 rsync $SOURCE/ $DEST/ -a --copy-links -v
