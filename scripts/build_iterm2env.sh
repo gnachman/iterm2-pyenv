@@ -46,7 +46,8 @@ yes | pip3 uninstall aioconsole
 
 pip3 install websockets
 pip3 install protobuf
-pip3 install --upgrade --force-reinstall iterm2
+# pip really really wants to install old software. This seems to beat it into submission.
+pip3 install --upgrade --force-reinstall --no-cache-dir iterm2
 pip3 install aioconsole
 
 rsync $SOURCE/ $DEST/ -a --copy-links -v
