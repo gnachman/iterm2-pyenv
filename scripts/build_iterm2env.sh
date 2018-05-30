@@ -48,6 +48,8 @@ pip3 install websockets
 pip3 install protobuf
 # pip really really wants to install old software. This seems to beat it into submission.
 pip3 install --upgrade --force-reinstall --no-cache-dir iterm2
+echo does this version look good?
+read xxx
 pip3 install aioconsole
 
 rsync $SOURCE/ $DEST/ -a --copy-links -v
