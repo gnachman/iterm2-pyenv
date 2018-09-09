@@ -35,9 +35,16 @@ PYTHON_VERSION=3.7.0
 rm -rf "$PYENV_INSTALL"
 mkdir -p "$PYENV_INSTALL"
 git clone https://github.com/pyenv/pyenv.git "$PYENV_INSTALL"
+
+pushd /Users/gnachman/.pyenv
+git pull
+popd
+
 export PYENV_ROOT=$SOURCE
 # If this fails complaining about missing a library like zlib, do: xcode-select --install
 "$PYENV_INSTALL"/bin/pyenv install $PYTHON_VERSION
+echo "Did this thing install $PYTHON_VERSION correctly in `pwd`?"
+read xxx
 export PATH=$PYENV_ROOT/versions/$PYTHON_VERSION/bin:$PATH
 yes | pip3 uninstall websockets
 yes | pip3 uninstall protobuf
