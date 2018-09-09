@@ -30,7 +30,7 @@ PYENV_INSTALL="$DEST"/pyenv
 rm -rf "$SOURCE"
 rm -rf "$DEST"
 
-PYTHON_VERSION=3.6.5
+PYTHON_VERSION=3.7.0
 
 rm -rf "$PYENV_INSTALL"
 mkdir -p "$PYENV_INSTALL"
