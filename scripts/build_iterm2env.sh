@@ -42,8 +42,9 @@ popd
 
 export PYENV_ROOT=$SOURCE
 # If this fails complaining about missing a library like zlib, do: xcode-select --install
-"$PYENV_INSTALL"/bin/pyenv install $PYTHON_VERSION
+"$PYENV_INSTALL"/bin/pyenv install -v $PYTHON_VERSION
 echo "Did this thing install $PYTHON_VERSION correctly in `pwd`?"
+echo "If not you might have to run xcode-select --install"
 read xxx
 export PATH=$PYENV_ROOT/versions/$PYTHON_VERSION/bin:$PATH
 yes | pip3 uninstall websockets
