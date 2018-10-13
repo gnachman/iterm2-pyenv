@@ -58,6 +58,9 @@ pip3 install protobuf
 pip3 install --upgrade --force-reinstall --no-cache-dir iterm2
 pip3 install --upgrade --force-reinstall --no-cache-dir iterm2
 echo does this version look good?
+echo if not run:
+echo $PYENV_ROOT/versions/$PYTHON_VERSION/bin/pip3 install --upgrade --force-reinstall --no-cache-dir iterm2
+echo Until it works. Sometimes it takes a while for the server to serve the newest version.
 read xxx
 pip3 install aioconsole
 
