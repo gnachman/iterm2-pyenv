@@ -30,7 +30,7 @@ PYENV_INSTALL="$DEST"/pyenv
 rm -rf "$SOURCE"
 rm -rf "$DEST"
 
-PYTHON_VERSION=3.7.0
+PYTHON_VERSIONS=(3.7.1 3.7.0)
 
 rm -rf "$PYENV_INSTALL"
 mkdir -p "$PYENV_INSTALL"
@@ -41,28 +41,31 @@ git pull
 popd
 
 export PYENV_ROOT=$SOURCE
+ORIG_PATH="$PATH"
 # If this fails complaining about missing a library like zlib, do: xcode-select --install
-"$PYENV_INSTALL"/bin/pyenv install -v $PYTHON_VERSION
-echo "Did this thing install $PYTHON_VERSION correctly in `pwd`?"
-echo "If not you might have to run xcode-select --install"
-read xxx
-export PATH=$PYENV_ROOT/versions/$PYTHON_VERSION/bin:$PATH
-yes | pip3 uninstall websockets
-yes | pip3 uninstall protobuf
-yes | pip3 uninstall iterm2
-yes | pip3 uninstall aioconsole
+for PYTHON_VERSION in ${PYTHON_VERSIONS[@]}; do
+    "$PYENV_INSTALL"/bin/pyenv install -v $PYTHON_VERSION
+    echo "Did this thing install $PYTHON_VERSION correctly in `pwd`?"
+    echo "If not you might have to run xcode-select --install"
+    read xxx
+    export PATH=$PYENV_ROOT/versions/$PYTHON_VERSION/bin:$ORIG_PATH
+    yes | pip3 uninstall websockets
+    yes | pip3 uninstall protobuf
+    yes | pip3 uninstall iterm2
+    yes | pip3 uninstall aioconsole
 
-pip3 install websockets
-pip3 install protobuf
-# pip really really wants to install old software. This seems to beat it into submission.
-pip3 install --upgrade --force-reinstall --no-cache-dir iterm2
-pip3 install --upgrade --force-reinstall --no-cache-dir iterm2
-echo does this version look good?
-echo if not run:
-echo $PYENV_ROOT/versions/$PYTHON_VERSION/bin/pip3 install --upgrade --force-reinstall --no-cache-dir iterm2
-echo Until it works. Sometimes it takes a while for the server to serve the newest version.
-read xxx
-pip3 install aioconsole
+    pip3 install websockets
+    pip3 install protobuf
+    # pip really really wants to install old software. This seems to beat it into submission.
+    pip3 install --upgrade --force-reinstall --no-cache-dir iterm2
+    pip3 install --upgrade --force-reinstall --no-cache-dir iterm2
+    echo does this version look good?
+    echo if not run:
+    echo $PYENV_ROOT/versions/$PYTHON_VERSION/bin/pip3 install --upgrade --force-reinstall --no-cache-dir iterm2
+    echo Until it works. Sometimes it takes a while for the server to serve the newest version.
+    read xxx
+    pip3 install aioconsole
+done
 
 rsync $SOURCE/ $DEST/ -a --copy-links -v
 
@@ -94,7 +97,7 @@ sed -e "s/__VERSION__/$1/" < templates/metadata_template.json > "$METADATA"
 zip -ry "$ZIPFILE" "$RELDEST"
 
 SIGNATURE=$(openssl dgst -sha256 -sign $RSA_PRIVKEY "$ZIPFILE" | openssl enc -base64 -A)
-sed -e "s/__VERSION__/$1/" -e "s,__URL__,$URL," -e "s,__SIGNATURE__,$SIGNATURE," < templates/manifest_template.json > "$MANIFEST"
+sed -e "s/__VERSION__/$1/" -e "s,__URL__,$URL," -e "s,__SIGNATURE__,$SIGNATURE," -e "s,__PYTHON_VERSIONS__,${PYTHON_VERSIONS[@]}," < templates/manifest_template.json > "$MANIFEST"
 git add "$ZIPFILE" "$MANIFEST"
 git commit -am "Build version $1"
 git push origin master
