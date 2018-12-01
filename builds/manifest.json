@@ -4,7 +4,7 @@
     "version": "36",
     "signature": "3zRZ+tzTnMwKXBTxW4STO0oKGpzTWG44Y0W1G8BBOUsCOgsOfVqLcpUgKzSs50zZkZmx3rgrfZHyjwRKirVUZfnT7jbQVt1ZvTTpYJS1F9uOlC64sfCmLF2rjo0v/h0DPdpe88TPtMI3FO1q8mpj8CKdWtpvqBi6bjZG49im4Yw3+vyCGH3Tx9BCn/5TKLSnxkXMFtpRPI1DguhcHFM+U3fMGhSKeYrS9lq48j46vlabaj84wuAFCQGZVAOCpsjMBQ6sHKgq3fo3Z7xkzx3QmAX45davLeBCC4WGfdvuICt7/XRjQaJfTXZL+GyTdIMvba137UAmk+tMJWdjXnlBIhkz/hxvBRpnzjg+nHjj+mvlJyrdLTJYme9Mct91IY6rwGQDatzKkK3fiAvl3Y+K4Pu5omUCnn3oi9RtdYPZknoCgil8lmNk9kOzC4P6GPXbgDMBohU6jZjrGum3sckACQY/2tzP+pjP0kyMlGgJ5Q8avKASTP+SULDLOTPbZTfM0Ard4+DRz3juOciI11hcCqC9bCA6bXWECVMhR6dnggjaaXxyg0s4f7fZLjdw0Z2mr6cpWdyThHNgPQQ5CcJBaRF2QqhgV6x2z9BHOzf4B8YTbfX61DjeGtF55GEK2WUJyDTeAIZumDAeT12UveRobZ0roDhrN2/mVkkQtosYuuY=",
     "minimum_iterm_version": "3.2.20180520-nightly",
-    "python_versions": [3.7.1 3.7.0]
+    "python_versions": ["3.7.1", "3.7.0"]
   },
   {
     "url": "https://iterm2.com/downloads/pyenv/iterm2env-12.zip",
