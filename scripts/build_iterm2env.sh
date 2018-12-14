@@ -30,7 +30,7 @@ PYENV_INSTALL="$DEST"/pyenv
 rm -rf "$SOURCE"
 rm -rf "$DEST"
 
-PYTHON_VERSIONS=(3.7.1 3.7.0)
+PYTHON_VERSIONS=(3.7.1)
 
 rm -rf "$PYENV_INSTALL"
 mkdir -p "$PYENV_INSTALL"
@@ -96,11 +96,16 @@ rm -rf "$SOURCE"
 sed -e "s/__VERSION__/$1/" < templates/metadata_template.json > "$METADATA"
 zip -ry "$ZIPFILE" "$RELDEST"
 
+function python_versions_json {
+    INTERMEDIATE=$(printf ", \"%s\"" "${PYTHON_VERSIONS[@]}")
+    echo ${INTERMEDIATE:1}
+}
+
 SIGNATURE=$(openssl dgst -sha256 -sign $RSA_PRIVKEY "$ZIPFILE" | openssl enc -base64 -A)
 sed -e "s/__VERSION__/$1/" \
     -e "s,__URL__,$URL," \
     -e "s,__SIGNATURE__,$SIGNATURE," \
-    -e "s,__PYTHON_VERSIONS__,$(echo -n ${PYTHON_VERSIONS[@]})," \
+    -e "s,__PYTHON_VERSIONS__,$(python_versions_json)," \
     < templates/manifest_template.json > "$MANIFEST"
 git add "$ZIPFILE" "$MANIFEST"
 git commit -am "Build version $1"
