@@ -59,6 +59,8 @@ for PYTHON_VERSION in ${PYTHON_VERSIONS[@]}; do
     # pip really really wants to install old software. This seems to beat it into submission.
     pip3 install --upgrade --force-reinstall --no-cache-dir iterm2
     pip3 install --upgrade --force-reinstall --no-cache-dir iterm2
+    ITERM2_MODULE_VERSION=$(pip3 show iterm2 | egrep "^Version: " | sed -e "s/^Version: //")
+    echo "I think I just installed version $ITERM2_MODULE_VERSION"
     echo does this version look good?
     echo if not run:
     echo $PYENV_ROOT/versions/$PYTHON_VERSION/bin/pip3 install --upgrade --force-reinstall --no-cache-dir iterm2
@@ -93,7 +95,7 @@ rm -rf "$PYENV_INSTALL"/.git
 find $DEST -type f -exec scripts/templatize.sh "$SOURCE" "$PYENV_INSTALL" "{}" \;
 
 rm -rf "$SOURCE"
-sed -e "s/__VERSION__/$1/" < templates/metadata_template.json > "$METADATA"
+sed -e "s/__VERSION__/$1/" -e "s/__ITERM2_MODULE_VERSION__/$ITERM2_MODULE_VERSION/" < templates/metadata_template.json > "$METADATA"
 zip -ry "$ZIPFILE" "$RELDEST"
 
 function python_versions_json {

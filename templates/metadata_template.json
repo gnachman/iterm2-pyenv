@@ -1,1 +1,2 @@
-{ "version": "__VERSION__" }
+{ "version": "__VERSION__",
+  "iterm2_module_version": "__ITERM2_MODULE_VERSION__" }
