@@ -107,7 +107,7 @@ SIGNATURE=$(openssl dgst -sha256 -sign $RSA_PRIVKEY "$ZIPFILE" | openssl enc -ba
 sed -e "s/__VERSION__/$1/" \
     -e "s,__URL__,$URL," \
     -e "s,__SIGNATURE__,$SIGNATURE," \
-    -e "s,__PYTHON_VERSIONS__,$(python_versions_json)," \
+    -e "s:__PYTHON_VERSIONS__:$(python_versions_json):" \
     < templates/manifest_template.json > "$MANIFEST"
 git add "$ZIPFILE" "$MANIFEST"
 git commit -am "Build version $1"
