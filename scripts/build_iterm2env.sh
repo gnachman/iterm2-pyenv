@@ -30,7 +30,10 @@ PYENV_INSTALL="$DEST"/pyenv
 rm -rf "$SOURCE"
 rm -rf "$DEST"
 
-PYTHON_VERSIONS=(3.7.1)
+# Note, you need to run 'brew update && brew upgrade pyenv' when bumping the
+# python version. For some reason even when using the freshly checked out pyenv
+# it still gets its list of versions from the system install.
+PYTHON_VERSIONS=(3.7.2)
 
 rm -rf "$PYENV_INSTALL"
 mkdir -p "$PYENV_INSTALL"
