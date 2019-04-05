@@ -1,8 +1,8 @@
 [
   {
-    "url": "https://iterm2.com/downloads/pyenv/iterm2env-44.zip",
-    "version": "44",
-    "signature": "i/LQonCOWAaEBsMMNEhelUN41Akk4LgtxxCgdxcGnRuu5usd6ePdNDtAO2OTlVC7hEGhUdcMMM1i0LiTzB5OtgWgOC/iS9XgmRvM9fpYRITuIRUmEG7L0vAfumag/3tRAXmIEOaTJTijNiF7JvFo0aaZfCfmKz1zuMZw4NTrQAYbdCvNGSRUC3ecZk7ggZKZoPKLIxOzbq/rIGCReH2HP1lGeXzgZEW38tLGu5nsp4OELKMtOmDJUiwo+FTt1P01LazJbX26udDaVDH0m51xDPPs/mQFLsOkU+SvbIxtzrKfAA7tDXIXnYEpBi9eJr9ARo1NzvCRqEBK8JLnLlfDmJntB54cd+1IjD9EfGzdS8q/gCfSnHN3I4UiSqEhYY4ov0SI7UbVZK6Cm8ooRi2K6xkQ156xxE6F1YqvrjXyE5P+R5nLHawSzHSngT8cS9a0095DlYkEMDwdeA6L0OvQEWIPWvKEaLy5fB4w8OiZih5BbO7+HJL1V+rFViBzLTSH/C+eXrJpx778EqwQptXg2auIUjDng5YkcrWZ4NLj0slg3KGEfagWSXB5pGXEv7HsFv81WjwoA0VIMiIQGOR3bhGS02jMaBEdCx39QpHDPHVGmsX2t7DEuv4FSgiCHApXG0+vg4DLB4BIC9atNV5TdpBLQeMmD5JSb4YrTTF7YfQ=",
+    "url": "https://iterm2.com/downloads/pyenv/iterm2env-45.zip",
+    "version": "45",
+    "signature": "Jp3mRNvxnvb8PyEBa7g1ZDECRXHmGTHG10GKR1w5MbTmCTE+56KXLTGV+HWO0PK5c4fBROXO677A1rYv2RIwMlWtIznnNppLh6EgFGT+cEDLdI68b3cLxGp/r4GxVAJEzQVK6sfkxho8QcyQhqRe10I/jit2E1kJFZb0I1bod4Xavavn9ysPdIeWZZc3+xPqnknxnrQwGk9FkrME8UWof+hd9cNBNMUbFK4Hl46acmSGHzSwt/kYHPJemw95E8IpZCxauke2jhfg/AC8fV0WibyuskLWUJtko2UOG4YoDqbUUNgUQDQJ99gDJoTrjvq5kZxY2wxbpVoyLrSdmCdsTHRggcdMU8K5yVvSr+NuGk86v1LAfEQ0zekDJU74O5UF1i3RNlHO0Csgh7Fy7v+CDWC5jOgMF7ez9BeTv30NjpbuGxsuBdNHYs7tV0sIxInY10LPvfOALtXW1Jv3reKVig6rwEw3mdJKXJxa/sfTuj7opS3ppDM3ZPK4ms6gah1fwT1E4GAmfNcz60VpK+As4vHFOvC7hTrXdnS5SX6L+80GuDWZRki3jQMKuhDFaZ6BpubXxNlVeTkGH6vOdUCVMsi5ePc8ot8UejBlUduRFEHMJAc8Ewe5VnQmifBNPXU64qxmqmK6sL5+lJZQLlyu/b2nKIVPAwRgU04ZVmcxuqg=",
     "minimum_iterm_version": "3.2.20180520-nightly",
     "python_versions": ["3.7.2"]
   },
