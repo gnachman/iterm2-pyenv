@@ -27,6 +27,9 @@ METADATANAME="iterm2env-metadata.json"
 METADATA="$DEST"/"$METADATANAME"
 PYENV_INSTALL="$DEST"/pyenv
 
+export LDFLAGS="-L/usr/local/opt/zlib/lib -L/usr/local/opt/sqlite/lib"
+export CPPFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/sqlite/include"
+
 rm -rf "$SOURCE"
 rm -rf "$DEST"
 
