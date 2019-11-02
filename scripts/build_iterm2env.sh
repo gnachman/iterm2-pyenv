@@ -1,4 +1,7 @@
 #!/bin/bash
+# optional:
+#  setenv BUILD_DELTA 1
+#  setenv RECORD_PREVIOUS 1
 # Usage: build_iterm2env.sh version
 
 function die {
@@ -12,23 +15,39 @@ fi
 test -f "$RSA_PRIVKEY" || die "Set RSA_PRIVKEY environment variable to point at a valid private key (not set or nonexistent)"
 set -x
 
+if [ -n "$BUILD_DELTA" ]; then
+    echo "Will build delta"
+    read xxx
+fi
+if [ -n "$RECORD_PREVIOUS" ]; then
+    echo "Will record previous"
+    read xxx
+fi
+
 git checkout master
 git pull origin master
-
-SOURCE=$(pwd)/venv
+export PATH=~/bin:$PWD/iterm2env/pyenv/plugins/python-build/bin:$PATH
+export LD_FLAGS="-static"
+export LINKFORSHARED=" "
+export PYTHON_CONFIGURE_OPTS="--disable-shared"
+unset MAKEFLAGS
+VERSION="$1"
+ROOT=$(pwd)
+SOURCE=$ROOT/venv
 RELDEST=iterm2env
-DEST=$(pwd)/"$RELDEST"
-BUILDS=$(pwd)/builds
+DEST=$ROOT/"$RELDEST"
+PREVIOUS=$ROOT/previous-iterm2env
+PREVIOUS_VERSION=$ROOT/previous-version.txt
+DELTA=$ROOT/delta
+BUILDS=$ROOT/builds
 ZIPNAME="iterm2env-$1.zip"
 ZIPFILE="$BUILDS"/"$ZIPNAME"
+DELTA_ZIP="$BUILDS"/"iterm2env-delta-$1.zip"
 URL="https://iterm2.com/downloads/pyenv/iterm2env-$1.zip"
 MANIFEST="$BUILDS/manifest.json"
 METADATANAME="iterm2env-metadata.json"
 METADATA="$DEST"/"$METADATANAME"
 PYENV_INSTALL="$DEST"/pyenv
-
-export LDFLAGS="-L/usr/local/opt/zlib/lib -L/usr/local/opt/sqlite/lib"
-export CPPFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/sqlite/include"
 
 rm -rf "$SOURCE"
 rm -rf "$DEST"
@@ -36,11 +55,17 @@ rm -rf "$DEST"
 # Note, you need to run 'brew update && brew upgrade pyenv' when bumping the
 # python version. For some reason even when using the freshly checked out pyenv
 # it still gets its list of versions from the system install.
-PYTHON_VERSIONS=(3.7.2)
+PYTHON_VERSIONS=(3.7.4)
 
 rm -rf "$PYENV_INSTALL"
 mkdir -p "$PYENV_INSTALL"
-git clone https://github.com/pyenv/pyenv.git "$PYENV_INSTALL"
+# Use my fork that builds only static libs to avoid pulling in system dependencies, such as on homebrew openssl.
+git clone https://github.com/gnachman/pyenv.git "$PYENV_INSTALL"
+pushd "$PYENV_INSTALL"
+git checkout experiment
+git log | head
+git status
+popd
 
 pushd /Users/gnachman/.pyenv
 git pull
@@ -77,6 +102,63 @@ done
 
 rsync $SOURCE/ $DEST/ -a --copy-links -v
 
+function build_delta {
+    echo About to build delta
+    # Build delta update
+    rm -rf "$DELTA"
+    mkdir "$DELTA"
+    rsync $SOURCE/ $DELTA/ -a --copy-links -v
+    # Remove executable files, *.pyc, libraries, and miscellaneous others
+    # because they are always different and are not intended to be included in
+    # a delta update.
+    find $DELTA -type f -perm +111 | xargs rm -f
+    find $DELTA -name "*.pyc" | xargs rm -f
+    rm -f $DELTA/versions/*/*/lib/*.a \
+          $DELTA/versions/*/*/lib/*.a \
+          $DELTA/versions/*/lib/*.a \
+          $DELTA/versions/*/lib/*/_sysconfigdata* \
+          $DELTA/versions/*/lib/*/config-*/* \
+
+
+    # Remove unchanged files. This is the delta computation part.
+    pushd $PREVIOUS
+    find . -type f -exec $ROOT/scripts/rm_if_equal {} $DELTA/{} \;
+
+    # The previous step left a bunch of empty directories behind. Remove them.
+    find "$DELTA" -type d -empty -delete
+    popd
+
+    # Generate the metadata file.
+    sed -e "s/__VERSION__/$1/" \
+        -e "s/__ITERM2_MODULE_VERSION__/$ITERM2_MODULE_VERSION/" \
+        < "$ROOT/templates/metadata_template.json" \
+        > "$DELTA/$METADATANAME"
+
+    # Make a zip file.
+    HOLDER="$ROOT/holder"
+    rm -rf $"HOLDER"
+    mkdir $"HOLDER"
+    mv $DELTA $"HOLDER/$RELDEST"
+    pushd "$HOLDER"
+    zip -ry "$DELTA_ZIP" "$RELDEST"
+    popd
+
+    echo Done building delta
+}
+
+function record_previous {
+    rm -rf "$PREVIOUS"
+    rsync $SOURCE/ $PREVIOUS/ -a --copy-links -v
+}
+
+if [ -n "$BUILD_DELTA" ]; then
+    build_delta "$1"
+fi
+if [ -n "$RECORD_PREVIOUS" ]; then
+    record_previous
+    echo -n $VERSION > $PREVIOUS_VERSION
+fi
+
 fdupes -r -1 $DEST | while read line
 do
   master=""
@@ -110,11 +192,34 @@ function python_versions_json {
 }
 
 SIGNATURE=$(openssl dgst -sha256 -sign $RSA_PRIVKEY "$ZIPFILE" | openssl enc -base64 -A)
-sed -e "s/__VERSION__/$1/" \
-    -e "s,__URL__,$URL," \
-    -e "s,__SIGNATURE__,$SIGNATURE," \
-    -e "s:__PYTHON_VERSIONS__:$(python_versions_json):" \
-    < templates/manifest_template.json > "$MANIFEST"
+SIZE=$(stat -f %z "$ZIPFILE")
+if [ -z "$BUILD_DELTA" ]; then
+    # Not a delta build
+    sed -e "s/__VERSION__/$1/" \
+        -e "s,__URL__,$URL," \
+        -e "s,__SIZE__,$SIZE," \
+        -e "s,__SIGNATURE__,$SIGNATURE," \
+        -e "s:__PYTHON_VERSIONS__:$(python_versions_json):" \
+        < templates/manifest_template.json > "$MANIFEST"
+else
+    # Delta build
+    SITE_PACKAGES_URL="https://iterm2.com/downloads/pyenv/iterm2env-delta-$1.zip"
+    SITE_PACKAGES_SIZE=$(stat -f %z "$DELTA_ZIP")
+    SITE_PACKAGES_SIGNATURE=$(openssl dgst -sha256 -sign $RSA_PRIVKEY "$DELTA_ZIP" | openssl enc -base64 -A)
+    PREVIOUS_VERSION=$(cat $PREVIOUS_VERSION)
+    sed -e "s/__VERSION__/$1/" \
+        -e "s,__URL__,$URL," \
+        -e "s,__SIZE__,$SIZE," \
+        -e "s,__SIGNATURE__,$SIGNATURE," \
+        -e "s:__PYTHON_VERSIONS__:$(python_versions_json):" \
+        -e "s,__SITE_PACKAGES_URL__,$SITE_PACKAGES_URL," \
+        -e "s,__SITE_PACKAGES_SIZE__,$SITE_PACKAGES_SIZE," \
+        -e "s,__SITE_PACKAGES_SIGNATURE__,$SITE_PACKAGES_SIGNATURE," \
+        -e "s,__SITE_PACKAGES_FULL_MIN__,$PREVIOUS_VERSION," \
+        -e "s,__SITE_PACKAGES_FULL_MAX__,$PREVIOUS_VERSION," \
+        < templates/manifest_template_with_delta.json > "$MANIFEST"
+    git add "$DELTA_ZIP"
+fi
 git add "$ZIPFILE" "$MANIFEST"
 git commit -am "Build version $1"
-git push origin master
+#git push origin master

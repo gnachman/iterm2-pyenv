@@ -5,7 +5,13 @@
     "signature": "__SIGNATURE__",
     "minimum_iterm_version": "3.3.7beta3",
     "python_versions": [__PYTHON_VERSIONS__],
-    "size": __SIZE__
+    "size": __SIZE__,
+
+    "site-packages-url": "__SITE_PACKAGES_URL__",
+    "site-packages-size": __SITE_PACKAGES_SIZE__,
+    "site-packages-signature": "__SITE_PACKAGES_SIGNATURE__",
+    "site-packages-full-min": "__SITE_PACKAGES_FULL_MIN__",
+    "site-packages-full-max": "__SITE_PACKAGES_FULL_MAX__"
   },
   {
     "url": "https://iterm2.com/downloads/pyenv/iterm2env-60.zip",
